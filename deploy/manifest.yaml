@@ -1,0 +1,45 @@
+applications:
+  - name: stager-srv-green
+    disk_quota: 512M
+#    env:
+#      DEBUG: xssec*
+#      SAP_EXT_TRC: stdout
+#      SAP_EXT_TRL: "3"
+    instances: ((instances))
+    memory: 256M
+    services:
+      - ((hdi))
+
+  - name: stagerapp-green
+    buildpacks:
+      - nodejs_buildpack
+    instances: ((instances))
+    disk_quota: 256M
+    env:
+      destinations: |
+        [
+          {"name":"backend","url":"https://((srv_host)).((srv_domain))/","forwardAuthToken":false},
+          {"name":"ui","url":"https://((static_web_host)).((static_web_domain))/","forwardAuthToken":false},
+          {"name":"content-srv","url":"https://((content_server_host)).((content_server_domain))/","forwardAuthToken":true}
+
+        ]
+      SESSION_TIMEOUT: 60
+    instances: ((instances))
+    memory: 256M
+#    services:
+#      - destination-demo-lite
+#      - connectivity-demo-lite
+
+  - name: static-web-green
+    buildpacks:
+      - staticfile_buildpack
+    disk_quota: 400M
+    instances: 1
+    memory: 56M
+
+  - name: stager-contentsrv-green
+    buildpacks:
+      - nodejs_buildpack
+    disk_quota: 400M
+    instances: ((instances_contentsrv))
+    memory: 100M

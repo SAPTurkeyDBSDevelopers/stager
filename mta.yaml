@@ -1,0 +1,93 @@
+## Generated mta.yaml based on template version 0.2.0
+## appName = stageroids
+## language=nodejs; multiTenant=false
+## approuter=
+_schema-version: '3.1'
+ID: stageroids
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true  
+modules:
+  - name: stageroids
+    type: nodejs
+    path: approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+      instances: 1
+    requires:
+      - name: stageroids_html5_repo_runtime
+      - name: srv_api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          strictSSL: false
+          name: backend
+          url: ~{url}
+    build-parameters:
+      ignore: ["node_modules/"]
+  - name: stageroids_ui_deployer
+    type: com.sap.html5.application-content
+    path: deployer
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: stageroids_html5_repo_host
+    build-parameters:
+      ignore: ["node_modules/"]
+      builder: custom
+      commands:
+        - npm run build:ui --prefix ..
+  - name: stageroids-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: stageroids-db-hdi-container
+    build-parameters:
+      ignore: ["node_modules/"]
+      builder: custom
+      commands:
+        - npm run build:cds --prefix ..
+  - name: stageroids-srv
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+      instances: 1
+    requires:
+      - name: stageroids-db-hdi-container
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+      - name: web_api
+        properties:
+          url: https://stageroids6161.wa.cfapps.us10.hana.ondemand.com/
+    build-parameters:
+      ignore: ["node_modules/"]
+resources:
+  - name: stageroids_html5_repo_runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+  - name: stageroids-db-hdi-container
+    type: com.sap.xs.hdi-container
+    parameters:
+      service-plan: hdi-shared
+      service: hana
+    properties:
+      hdi-container-name: ${service-name}
+  - name: stageroids_html5_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+      config:
+        sizeLimit: 1

@@ -1,0 +1,15 @@
+{
+    "requires": {
+        "db": {
+            "kind": "hana"
+        }
+    },
+    "[production]": {
+        "requires": {
+            "db": {
+                "kind": "hana"
+            }
+        }
+    },
+    "hana" : { "deploy-format": "hdbtable" }
+}

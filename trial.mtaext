@@ -1,0 +1,19 @@
+_schema-version: 3.3.0
+ID: stageroids-trial
+extends: sap4kids
+version: 1.0.0
+
+modules:
+- name: stageroids-srv
+  parameters:
+    memory: 256M
+    instances: 1
+- name: stageroids
+  parameters:
+    memory: 256M
+    instances: 1
+
+resources:
+ - name: stageroids-db-hdi-container
+   parameters:
+     service: "hanatrial"
