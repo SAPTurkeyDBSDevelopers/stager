@@ -39,6 +39,7 @@ sap.ui.define(
       
       },
       onNewStage: function () {
+       document.getElementById("fireworks").hidden = false;
         let that = this;
         let random = Math.floor(Math.random() * 3);
 
@@ -56,11 +57,15 @@ sap.ui.define(
               if(oResult.value.length == 0) {
 
                 return sap.m.MessageToast.show('Hata: Kullanıcı Bulunamadı', {
-                  duration: 3000, 
+                  duration: 10000, 
                   width: "15rem", // default max width supported 
                 });
  
               }
+
+              setTimeout(() => {
+                document.getElementById("fireworks").hidden = true;
+              }, 10000);
 
               that.getView().getModel("main").setData(oResult.value[random]);
 
