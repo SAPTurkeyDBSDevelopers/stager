@@ -1,0 +1,22 @@
+{
+  "welcomeFile": "stager/webapp/index.html",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "source": "^/stager/webapp/(.*)$",
+      "target": "/stager/webapp/$1",
+      "destination": "ui",
+      "authenticationType": "none"      
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "/$1",
+      "destination": "backend",
+      "authenticationType": "none",
+      "cacheControl": "no-cache, no-store, must-revalidate"
+    }
+
+  ]
+}

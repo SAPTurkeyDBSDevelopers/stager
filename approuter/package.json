@@ -1,0 +1,10 @@
+{
+  "name": "finderem-approuter",
+  "dependencies": {
+    "@sap/approuter": "*"
+  },
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js",
+    "dev": "node --inspect=localhost:4016 -r dotenv/config  node_modules/@sap/approuter/approuter.js"
+  }
+}

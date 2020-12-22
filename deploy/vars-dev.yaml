@@ -1,0 +1,14 @@
+org: d65a3472trial
+space: dev
+instances: 1
+instances_contentsrv: 1
+srv_domain: cfapps.eu10.hana.ondemand.com
+srv_host: odata-stager
+ar_host: stager-app
+ar_domain: cfapps.eu10.hana.ondemand.com
+static_web_domain: cfapps.eu10.hana.ondemand.com
+static_web_host: stager-ui-app
+content_server_domain: cfapps.eu10.hana.ondemand.com
+content_server_host: stager-content-srv
+env: dev
+hdi: stageroids-db-hdi-container

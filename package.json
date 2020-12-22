@@ -1,0 +1,89 @@
+{
+  "name": "stageroids",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^3",
+    "@sap/hana-client": "^2.4.177",
+    "@sap/xsenv": "^2.2.0",
+    "@sap/xssec": "^2.2.5",
+    "express": "^4",
+    "hdb": "^0.17.1",
+    "lokijs": "^1.5.6",
+    "shx": "^0.3.2",
+    "socket.io": "^3.0.4"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^1.7.1",
+    "cross-var": "^1.1.0",
+    "mbt": "1.0.13",
+    "ui5-middleware-cfdestination": "^0.1.7",
+    "@ui5/cli": "^2.0.2",
+    "ui5-middleware-livereload": "^0.1.10",
+    "ui5-middleware-simpleproxy": "^0.2.1",
+    "npm-run-all": "^4.1.5",
+    "eslint": "^6.8.0"
+  },
+  "scripts": {
+    "build:cds": "cds build/all --clean",
+    "build": "cds build/all --clean",
+    "env": "cp ./default-env.json ./db/default-env.json && cp ./default-env.json ./srv/default-env.json",
+    "dbbuild": "cds build && cd ./db && npm start",
+    "deploy:cds": "cds deploy",
+    "hana": "cds deploy --to hana:stageroids --auto-undeploy",
+    "ui5:build": "ui5 build --dest app/stager",
+    "start": "npx cds run",
+    "build:ui": "run-p build:stager",
+    "build:mta": "mbt build",
+    "deploy:cf": "cross-var cf deploy mta_archives/stageroids_$npm_package_version.mtar",
+    "deploy:cf:trial": "cross-var cf deploy mta_archives/stageroids_$npm_package_version.mtar -e trial.mtaext",
+    "deploy": "run-s build:mta deploy:cf",
+    "deploy:trial": "run-s build:mta deploy:cf:trial",
+    "build:stager": "ui5 build --config stager/ui5.yaml --clean-dest --include-task=generateManifestBundle --dest deployer/resources/stager"
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "build": {
+      "target": ".",
+      "tasks": [
+        {
+          "src": "db",
+          "for": "hana",
+          "options": {
+            "model": [
+              "db",
+              "srv"
+            ]
+          }
+        },
+        {
+          "src": "srv",
+          "for": "node-cf",
+          "options": {
+            "model": [
+              "db",
+              "srv"
+            ]
+          }
+        }
+      ]
+    },
+    "requires": {
+      "db": {
+        "kind": "sql",
+        "[production]": {
+          "kind": "hana"
+        },
+        "model": [
+          "db",
+          "srv"
+        ]
+      }
+    }
+  }
+}
