@@ -1,0 +1,30 @@
+{
+    "VCAP_SERVICES": {
+        "hana": [
+            {
+                "name": "hana-cli",
+                "label": "hana",
+                "tags": [
+                    "hana",
+                    "database",
+                    "relational"
+                ],
+                "plan": "hdi-shared",
+                "credentials": {
+                    "driver": "com.sap.db.jdbc.Driver",
+                    "hdi_password": "Dp7RhiWk2aKx6C9Pjo9C53BJ7Db2q6w6rLuM6ig1JWFUjS708SH8n4KDdJLn0nwTyjHOvdAOzaDyfk3NweFGtwcA9QISwEjKiL.wRd36C5onlN_Au3hSO7s2WswG685e",
+                    "hdi_user": "9B4D6BC55EB64CA0B91AE7BD53652A1C_8QTL7AE4FKBJZFBC0JPEHFJID_DT",
+                    "host": "zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com",
+                    "password": "Iy7dpXwkgaeyE1svkFnQqS7CE7yyHjGvkemeyjAQNvcua1SofcXv-KD9kBW2EYZSjLK-78A9CtXQP-FI8iwzpPrGDay4m2qKMOXUvz33BEV_O-1kSgcyKDZbCWousaSn",
+                    "port": "23803",
+                    "schema": "9B4D6BC55EB64CA0B91AE7BD53652A1C",
+                    "url": "jdbc:sap://zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com:23803?encrypt=true&validateCertificate=true&currentschema=9B4D6BC55EB64CA0B91AE7BD53652A1C",
+                    "user": "9B4D6BC55EB64CA0B91AE7BD53652A1C_8QTL7AE4FKBJZFBC0JPEHFJID_RT",
+                    "encrypt": true,
+                    "sslValidateCertificate": false,
+                    "pooling": true
+                }
+            }
+        ]
+    }
+}
