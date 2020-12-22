@@ -44,9 +44,15 @@ sap.ui.define(
         let random = Math.floor(Math.random() * 3);
 
         const oBundle = this.getView().getModel("i18n").getResourceBundle();
+<<<<<<< HEAD
  
         $.get(
           "/catalog/Employees?$filter=Selected eq false&$count=true"//&$skip=" + random
+=======
+
+        $.get(
+          "/stag/Categories?$filter=Selected eq false&$count=true"//&$skip=" + random
+>>>>>>> f16147443560b77c194bf25f667d81e9a09d4460
         ).done(
             function (oResult) {
               var number = oResult['@odata.count'];
@@ -78,7 +84,11 @@ sap.ui.define(
  
  
 
+<<<<<<< HEAD
               $.ajax("/catalog/Employees("+oResult.value[random].Catid+")", {
+=======
+              $.ajax("/stag/Categories("+oResult.value[random].Catid+")", {
+>>>>>>> f16147443560b77c194bf25f667d81e9a09d4460
                 method: "PUT",
                 contentType: "application/json",
             
