@@ -44,15 +44,9 @@ sap.ui.define(
         let random = Math.floor(Math.random() * 3);
 
         const oBundle = this.getView().getModel("i18n").getResourceBundle();
-<<<<<<< HEAD
  
         $.get(
           "/catalog/Employees?$filter=Selected eq false&$count=true"//&$skip=" + random
-=======
-
-        $.get(
-          "/stag/Categories?$filter=Selected eq false&$count=true"//&$skip=" + random
->>>>>>> f16147443560b77c194bf25f667d81e9a09d4460
         ).done(
             function (oResult) {
               var number = oResult['@odata.count'];
@@ -84,11 +78,7 @@ sap.ui.define(
  
  
 
-<<<<<<< HEAD
               $.ajax("/catalog/Employees("+oResult.value[random].Catid+")", {
-=======
-              $.ajax("/stag/Categories("+oResult.value[random].Catid+")", {
->>>>>>> f16147443560b77c194bf25f667d81e9a09d4460
                 method: "PUT",
                 contentType: "application/json",
             
@@ -125,68 +115,7 @@ sap.ui.define(
           );
         }
         return result;
-      },
-
-      onNewDoddle: function () {
-        let that = this;
-        let random = Math.floor(Math.random() * 143);
-        $("#splashScreen").slideUp();
-        const oBundle = this.getView().getModel("i18n").getResourceBundle();
-
-        $.get(
-          "/stag/Categories?$filter=Language eq 'TR'&$top=1&$skip=" + random
-        )
-          .done(
-            function (oResult) {
-              oResult.value[0].Name =
-                oBundle.getText("requestedDoddle") +
-                ": " +
-                oResult.value[0].Name;
-              this.getModel().setSizeLimit(oResult.length);
-              this.getModel().setData(oResult.value[0]);
-
-              if (interval > 0) clearInterval(interval);
-
-              //that.startTimer(oResult.value[0]);
-              this.getView().byId("drawonme").eraseCanvas();
-            }.bind(this)
-          )
-          .fail(function () {
-            MessageBox.error(oBundle.getText("datarequestfailed"), {
-              onClose: function (action) {
-                if (action !== MessageBox.Action.CLOSE) {
-                  //do nothing now
-                }
-              }.bind(this),
-            });
-          });
-      },
-
-      _getDialog: function () {
-        if (!this._oDialog) {
-          this._oDialog = sap.ui.xmlfragment("");
-          this.getView().addDependent(this._oDialog);
-        }
-        return this._oDialog;
-      },
-
-      openEndGameDialog: function () {
-        var oView = this.getView();
-        // create dialog lazily
-        if (!this.pDialog) {
-          this.pDialog = Fragment.load({
-            id: oView.getId(),
-            name: "com.pai.ocn.stager.view.fragments.GameEndDialog",
-            controller: this,
-          }).then(function (oDialog) {
-            oView.addDependent(oDialog);
-            return oDialog;
-          });
-        }
-        this.pDialog.then(function (oDialog) {
-          oDialog.open();
-        });
-      },
+      }
     });
   }
 );
